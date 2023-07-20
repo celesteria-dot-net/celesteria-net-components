@@ -1,0 +1,13 @@
+volumes:
+  cloudflared-home:
+    name: cloudflared-celesteria-net-home
+
+services:
+  cloudflared-celesteria-net:
+    build:
+      context: ./cloudflared
+      dockerfile: ./Dockerfile
+    container_name: cloudflared-celesteria-net
+    image: local-cloudflared-image
+    volumes:
+      - cloudflared-home:/root
