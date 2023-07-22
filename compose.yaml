@@ -2,6 +2,12 @@ volumes:
   cloudflared-home:
     name: cloudflared-celesteria-net-home
 
+networks:
+  default-network:
+    name: cloudflared-celesteria-net-network
+  sentry-frontend:
+    external: true
+
 services:
   cloudflared-celesteria-net:
     build:
@@ -13,3 +19,6 @@ services:
     volumes:
       - cloudflared-home:/root
       - ./cloudflared/tunnel-config.yaml:/tmp/tunnel-config.yaml
+    networks:
+      - default-network
+      - sentry-frontend
