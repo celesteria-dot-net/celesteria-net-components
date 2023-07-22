@@ -1,0 +1,3 @@
+[submodule "sentry"]
+	path = sentry
+	url = git@github.com:celesteria-dot-net/sentry.git
