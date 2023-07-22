@@ -1,2 +1,4 @@
 ingress:
+  - hostname: sentry.celesteria.net
+    service: http://sentry-self-hosted-nginx-1:80
   - service: http_status:404
