@@ -3,6 +3,14 @@ set -e
 
 domain=celesteria.net
 tunnel_name=celesteria-net-argo
+config_file_path=/tmp/tunnel-config.yaml
+
+assert_config_exists () {
+  if [ ! -f $config_file_path ]; then
+    echo "$config_file_path is not found!"
+    exit 1
+  fi
+}
 
 # list tunnel information in yaml format.
 # A typical output is
@@ -38,13 +46,14 @@ if [ ! -f ~/.cloudflared/cert.pem ]; then
   cloudflared tunnel login
 fi
 
+assert_config_exists
 ensure_tunnel_exists_and_we_have_access
 
 tunnel_id=$(get_available_tunnel_id)
 
 # re-route all domains in ingress-rules to this tunnel
-yq e ".ingress.[].hostname | select(. != null)" /tmp/tunnel-config.yaml \
-  | xargs -n 1 cloudflared tunnel route --overwrite-dns dns $tunnel_id $hostname
+yq e ".ingress.[].hostname | select(. != null)" $config_file_path \
+  | xargs -n 1 cloudflared tunnel route dns $tunnel_id
 
 # start the tunnel
-cloudflared tunnel --config /tmp/tunnel-config.yaml --no-autoupdate run $tunnel_id
+cloudflared tunnel --config $config_file_path --no-autoupdate run $tunnel_id

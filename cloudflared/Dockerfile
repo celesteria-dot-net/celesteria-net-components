@@ -36,6 +36,5 @@ RUN apk --update --no-cache add \
 RUN mkdir -p /tmp
 
 COPY ./entrypoint.sh /tmp/entrypoint.sh
-COPY ./tunnel-config.yaml /tmp/tunnel-config.yaml
 
 ENTRYPOINT [ "/tmp/entrypoint.sh" ]
