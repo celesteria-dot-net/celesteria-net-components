@@ -9,6 +9,7 @@ services:
       dockerfile: ./Dockerfile
     container_name: cloudflared-celesteria-net
     image: local-cloudflared-image
+    init: true
     volumes:
       - cloudflared-home:/root
       - ./cloudflared/tunnel-config.yaml:/tmp/tunnel-config.yaml
